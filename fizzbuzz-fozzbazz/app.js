@@ -17,33 +17,55 @@ angular.module('app', ['ngRoute'])
 
 /*  HINT: Make sure your controllers, methods, and variables 
     are named what $routeProvider and the partials are expecting  */
+.factory('counter', function($http){
+	var count =0
+    var fizzTest = function(count){
+    if (count % 5 === 0 && count % 3 === 0 ){
+       return "FIZZBUZZ"
+     }
+     else if (count % 3 === 0 ){
+       return"FIZZ"
+     }
+     else if (count % 5 === 0 ){
+       return "BUZZ"
+     }
+     else {return count}
+    }
+	var buzzTest = function(count){
 
-  .factory('counter', function(){
-    var counter = 0
-    $routeProvider.$on('',function(){
-      return counter++
-    })
+		if (count % 4 === 0 && count % 6 === 0 ){
+       		return "FOZZBAZZ"
+	     }
+		else if (count % 4 === 0 ){
+		   return "FOZZ"
+		}
+		else if (count % 6 === 0 ){
+		   return "BAZZ"
+		}
+		else {return count}
+	}
+   return{
+    count: count,
+    fizzTest : fizzTest,
+    buzzTest : buzzTest
+   }
   })
-  .controller('fizzbuzzCtrl', function(){
-    if ($routeProvider.counter%3===0) {
-      console.log('Fizz')
+  .controller('fizzbuzzCtrl', function($scope,counter){
+    $scope.display = counter.count;
+     $scope.increment = function(){
+     	counter.count++
+     $scope.display = counter.fizzTest(counter.count)
     }
-    if ($routeProvider.counter%5===0) {
-      console.log('Buzz')
+ })
+  .controller('fozzbazzCtrl', function($scope,counter){
+  	$scope.display = counter.count
+  	counter.count++
+     $scope.increment = function(){
+     	counter.count++
+     $scope.display = counter.buzzTest(counter.count)
     }
-    if ($routeProvider.counter%5===0 &&$routeProvider.counter%3 ===0) {
-      console.log('FIZZBUZZ')
-    }
-  })
 
-  .controller('fozzbazzCtrl', function(){
-       if ($routeProvider.counter%4===0) {
-      console.log('FOZZ')
-    }
-    if ($routeProvider.counter%6===0) {
-      console.log('BAZZ')
-    }
-    if ($routeProvider.counter%4===0 &&$routeProvider.counter%6 ===0) {
-      console.log('FOZZBAZZ')
-    }
   });
+
+
+  
